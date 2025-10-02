@@ -1,9 +1,12 @@
 {
     "themes": [{
-        "name" : "nl-design-system",
-        "types": [ "login", "account", "welcome", "common" ]
-    }, {
         "name" : "itlusions",
+        "types": [ "login", "account", "welcome" ]
+    }, {
+        "name" : "itlusions-dark",
+        "types": [ "login", "account", "welcome" ]
+    }, {
+        "name" : "itlusions-neon",
         "types": [ "login", "account", "welcome" ]
     }]
 }
