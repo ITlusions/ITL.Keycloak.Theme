@@ -445,3 +445,213 @@
     border: 1px solid #000 !important;
   }
 }
+
+/* Additional components for new pages */
+
+/* Password field styles */
+.itl-password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.itl-password-field .itl-input {
+  padding-right: 3rem;
+}
+
+.itl-password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  color: var(--itl-gray-500);
+  transition: color 0.2s ease;
+}
+
+.itl-password-toggle:hover {
+  color: var(--itl-primary);
+}
+
+.itl-password-toggle:focus {
+  outline: 2px solid var(--itl-primary);
+  outline-offset: 2px;
+  border-radius: var(--itl-border-radius);
+}
+
+/* Radio buttons */
+.itl-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--itl-spacing-sm);
+}
+
+.itl-radio-option {
+  display: flex;
+  align-items: center;
+  gap: var(--itl-spacing-sm);
+}
+
+.itl-radio {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--itl-primary);
+}
+
+.itl-radio-label {
+  color: var(--itl-gray-700);
+  cursor: pointer;
+}
+
+.itl-radio:checked + .itl-radio-label {
+  color: var(--itl-gray-900);
+  font-weight: 500;
+}
+
+/* Social providers */
+.itl-social-providers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--itl-spacing-md);
+  align-items: center;
+  margin-bottom: var(--itl-spacing-xl);
+}
+
+.itl-button--social-primary,
+.itl-button--social-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--itl-spacing-sm);
+  text-decoration: none;
+}
+
+.itl-button--social-primary {
+  background: var(--itl-primary);
+  color: white;
+}
+
+.itl-button--social-secondary {
+  background: var(--itl-gray-100);
+  color: var(--itl-gray-700);
+  border: var(--itl-border-width) solid var(--itl-gray-300);
+}
+
+.itl-button--social-secondary:hover {
+  background: var(--itl-gray-200);
+  color: var(--itl-gray-900);
+}
+
+.itl-social-icon {
+  font-size: 1.25rem;
+}
+
+.itl-social-text {
+  font-weight: 500;
+}
+
+/* Divider */
+.itl-divider {
+  border: none;
+  height: var(--itl-border-width);
+  background: var(--itl-gray-200);
+  margin: var(--itl-spacing-xl) 0;
+}
+
+/* Form groups */
+.itl-form-group {
+  margin-bottom: var(--itl-spacing-xl);
+}
+
+.itl-form-group-header {
+  margin-bottom: var(--itl-spacing-md);
+}
+
+.itl-form-group-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--itl-gray-900);
+  margin: 0;
+}
+
+.itl-form-group-description {
+  margin-top: var(--itl-spacing-sm);
+}
+
+.itl-form-group-desc {
+  color: var(--itl-gray-600);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Textarea */
+.itl-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: var(--itl-border-width) solid var(--itl-gray-300);
+  border-radius: var(--itl-border-radius);
+  font-family: var(--itl-font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+  resize: vertical;
+  min-height: 4rem;
+}
+
+.itl-textarea:focus {
+  outline: none;
+  border-color: var(--itl-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.itl-textarea--error {
+  border-color: var(--itl-error);
+}
+
+.itl-textarea--error:focus {
+  border-color: var(--itl-error);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Field help text */
+.itl-field-help {
+  margin-top: var(--itl-spacing-xs);
+  font-size: 0.875rem;
+  color: var(--itl-gray-600);
+}
+
+/* Info section */
+.itl-info-section {
+  text-align: center;
+  padding-top: var(--itl-spacing-xl);
+  border-top: var(--itl-border-width) solid var(--itl-gray-200);
+  margin-top: var(--itl-spacing-2xl);
+}
+
+.itl-info-text {
+  color: var(--itl-gray-600);
+  font-size: 0.875rem;
+}
+
+/* Enhanced responsive design */
+@media (max-width: 640px) {
+  .itl-password-toggle {
+    right: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .itl-password-field .itl-input {
+    padding-right: 2.5rem;
+  }
+  
+  .itl-social-providers {
+    gap: var(--itl-spacing-sm);
+  }
+  
+  .itl-form-group-title {
+    font-size: 1rem;
+  }
+}
