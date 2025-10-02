@@ -1,0 +1,33 @@
+{
+  "name": "@itlusions/keycloak-themes",
+  "version": "1.0.0",
+  "description": "Custom Keycloak theme for ITlusions corporate branding",
+  "scripts": {
+    "build": "powershell -ExecutionPolicy Bypass -File ./build-themes.ps1",
+    "build:nl": "jar --create --file output/keycloak-nl-design-system.jar theme/nl-design-system/ META-INF/",
+    "build:itlusions": "jar --create --file output/keycloak-itlusions-theme.jar theme/itlusions/ META-INF/",
+    "build:combined": "jar --create --file output/keycloak-combined-themes.jar theme/ META-INF/",
+    "compile": "webpack --config webpack.config.js",
+    "dev": "webpack --config webpack.config.js --watch",
+    "clean": "powershell -Command \"if (Test-Path output) { Remove-Item output -Recurse -Force }\"",
+    "list": "powershell -Command \"Get-ChildItem output/*.jar | ForEach-Object { Write-Host \\\"📦 $($_.Name) ($([math]::Round($_.Length / 1KB, 2)) KB)\\\" }\""
+  },
+  "author": "ITlusions <info@itlusions.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ITlusions/keycloak-themes.git"
+  },
+  "keywords": [
+    "keycloak",
+    "theme",
+    "itlusions",
+    "authentication",
+    "branding"
+  ],
+  "devDependencies": {
+    "copy-webpack-plugin": "^13.0.1",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
+  }
+}
