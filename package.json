@@ -4,10 +4,10 @@
   "description": "Custom Keycloak theme for ITlusions corporate branding",
   "scripts": {
     "build": "powershell -ExecutionPolicy Bypass -File ./build-themes.ps1",
-    "build:nl": "jar --create --file output/keycloak-nl-design-system.jar theme/nl-design-system/ META-INF/",
     "build:itlusions": "jar --create --file output/keycloak-itlusions-theme.jar theme/itlusions/ META-INF/",
     "build:dark": "jar --create --file output/keycloak-itlusions-dark-theme.jar theme/itlusions-dark/ META-INF/",
     "build:neon": "jar --create --file output/keycloak-itlusions-neon-theme.jar theme/itlusions-neon/ META-INF/",
+    "build:all": "npm run build:itlusions && npm run build:dark && npm run build:neon",
     "build:combined": "jar --create --file output/keycloak-combined-themes.jar theme/ META-INF/",
     "compile": "webpack --config webpack.config.js",
     "dev": "webpack --config webpack.config.js --watch",

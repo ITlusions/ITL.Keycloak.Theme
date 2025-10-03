@@ -32,7 +32,7 @@ jobs:
           java-version: '21'
 
       - name: package template
-        run: npm run build:itlusions
+        run: npm run build:all
 
       - uses: actions/upload-artifact@v4
         with:
