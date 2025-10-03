@@ -36,15 +36,17 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: keycloak-itlusions-theme.jar
-          path: output/keycloak-itlusions-theme.jar
+          name: keycloak-itlusions-theme
+          path: output/**
           if-no-files-found: error
           retention-days: 7
           overwrite: true
 
-      - name: Upload artifact to release
+      - name: Upload all artifacts to release
         if: startsWith(github.ref, 'refs/tags/v')
-        run: gh release upload ${{ github.ref_name }} output/keycloak-itlusions-theme.jar
+        run: |
+          for file in output/*; do
+          gh release upload "${{ github.ref_name }}" "$file"
+          done
         env:
           GH_TOKEN: ${{ github.token }}
-
