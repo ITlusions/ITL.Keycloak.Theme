@@ -73,11 +73,9 @@
                 <#nested "socialProviders">
 
                 <!-- Main Form Content -->
-                <#if nested.section! == "header">
-                    <h2 class="itl-form-title">
-                        <#nested "header">
-                    </h2>
-                </#if>
+                <div class="itl-form-header">
+                    <#nested "header">
+                </div>
 
                 <#nested "form">
 
