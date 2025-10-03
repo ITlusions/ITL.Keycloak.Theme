@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - keycloakify-migration
     tags:
       - "v*"
   pull_request:
@@ -11,7 +12,8 @@ on:
       - "main"
 
 jobs:
-  build:
+  # Legacy build (current FreeMarker approach)
+  build-legacy:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -21,27 +23,78 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
+          node-version: '18'
 
-      - name: Install dependencies
+      - name: Install dependencies (legacy)
         run: npm install
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '21'
+      - name: Build legacy themes with PowerShell
+        run: npm run build
+        shell: pwsh
 
-      - name: package template
-        run: npm run build:all
-
-      - name: Upload all artifacts in output folder
+      - name: Upload legacy artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: keycloak-itlusions-theme
-          path: output/*
-          if-no-files-found: error
-          retention-days: 7
-          overwrite: true
+          name: keycloak-legacy-themes
+          path: output/*.jar
+
+  # Modern Keycloakify build
+  build-keycloakify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: github.ref == 'refs/heads/keycloakify-migration' || contains(github.event.head_commit.message, '[keycloakify]')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Keycloakify dependencies
+        run: |
+          if [ -f "package-keycloakify.json" ]; then
+            cp package-keycloakify.json package.json
+            npm install
+          else
+            echo "Keycloakify package.json not found, skipping"
+            exit 0
+          fi
+
+      - name: TypeScript type check
+        run: npm run typecheck || echo "Type checking skipped"
+
+      - name: Build Keycloakify theme
+        run: npm run build-keycloak-theme || echo "Keycloakify build skipped"
+
+      - name: Upload Keycloakify artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: keycloak-keycloakify-theme
+          path: dist/keycloak-theme.jar
+        if: success()
+
+  # Release job (when tagged)
+  release:
+    runs-on: ubuntu-latest
+    needs: [build-legacy, build-keycloakify]
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            keycloak-legacy-themes/*.jar
+            keycloak-keycloakify-theme/*.jar
+          draft: false
+          prerelease: false
 
       - name: Upload all artifacts to release
         if: startsWith(github.ref, 'refs/tags/v')

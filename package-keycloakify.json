@@ -1,0 +1,66 @@
+{
+  "name": "@itlusions/keycloak-themes",
+  "version": "2.0.0",
+  "description": "Modern Keycloak themes for ITlusions using Keycloakify",
+  "homepage": "https://github.com/ITlusions/keycloak-themes",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "keycloakify build",
+    "build-keycloak-theme": "keycloakify build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "format": "prettier --write src/",
+    "lint": "eslint src/ --ext .ts,.tsx",
+    "test": "vitest",
+    "clean": "rimraf dist build-keycloak-theme",
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "ITlusions <info@itlusions.com>",
+  "license": "MIT",
+  "keywords": [
+    "keycloak",
+    "theme",
+    "itlusions",
+    "authentication",
+    "react",
+    "typescript",
+    "keycloakify"
+  ],
+  "dependencies": {
+    "keycloakify": "^11.3.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "styled-components": "^6.1.8",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.17",
+    "@storybook/addon-links": "^7.6.17",
+    "@storybook/blocks": "^7.6.17",
+    "@storybook/react": "^7.6.17",
+    "@storybook/react-vite": "^7.6.17",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.23",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "storybook": "^7.6.17",
+    "typescript": "^5.4.3",
+    "vite": "^5.2.6",
+    "vitest": "^1.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ITlusions/keycloak-themes.git"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

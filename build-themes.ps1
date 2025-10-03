@@ -1,5 +1,5 @@
 # Build script for Keycloak themes
-# Creates JAR files for both NL Design System and ITlusions themes
+# Creates JAR files for ITlusions theme variants
 
 Write-Host "Building Keycloak themes..." -ForegroundColor Green
 
@@ -54,6 +54,18 @@ function Create-JarFile {
 # Build ITlusions theme
 Write-Host "`nBuilding ITlusions theme..." -ForegroundColor Blue
 Create-JarFile "keycloak-itlusions-theme.jar" @("theme\itlusions", "META-INF")
+
+# Build ITlusions Dark theme
+Write-Host "`nBuilding ITlusions Dark theme..." -ForegroundColor Blue
+Create-JarFile "keycloak-itlusions-dark-theme.jar" @("theme\itlusions-dark", "META-INF")
+
+# Build ITlusions Neon theme
+Write-Host "`nBuilding ITlusions Neon theme..." -ForegroundColor Blue
+Create-JarFile "keycloak-itlusions-neon-theme.jar" @("theme\itlusions-neon", "META-INF")
+
+# Build combined theme with all variants
+Write-Host "`nBuilding Combined themes..." -ForegroundColor Blue
+Create-JarFile "keycloak-combined-themes.jar" @("theme", "META-INF")
 
 Write-Host "`n🎉 Build completed successfully!" -ForegroundColor Green
 Write-Host "Available theme files:" -ForegroundColor White
