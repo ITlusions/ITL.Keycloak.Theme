@@ -80,10 +80,18 @@
   min-height: 100vh;
   color: var(--itl-gray-900);
   line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
 .itlusions-theme * {
   box-sizing: border-box;
+}
+
+/* Reset any default margins/padding */
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
 /* Header Styling */
@@ -93,15 +101,22 @@
   border-bottom: var(--itl-border-width) solid rgba(255, 255, 255, 0.2);
   padding: var(--itl-spacing-md) 0;
   box-shadow: var(--itl-shadow-sm);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .itlusions-header-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--itl-spacing-md);
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0 var(--itl-spacing-xl);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 /* Logo and Branding */
@@ -121,10 +136,10 @@
 /* Main Content Layout */
 .itlusions-content-wrapper {
   display: flex;
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
-  padding: var(--itl-spacing-xl) var(--itl-spacing-md);
+  padding: calc(80px + var(--itl-spacing-xl)) var(--itl-spacing-md) var(--itl-spacing-xl) var(--itl-spacing-md);
 }
 
 /* Login Card */
@@ -667,6 +682,18 @@
 @media (max-width: 640px) {
   .itlusions-theme {
     background-attachment: scroll; /* Better performance on mobile */
+  }
+  
+  .itlusions-header-wrapper {
+    padding: 0 var(--itl-spacing-md);
+  }
+  
+  .itlusions-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .itlusions-content-wrapper {
+    padding: calc(70px + var(--itl-spacing-lg)) var(--itl-spacing-sm) var(--itl-spacing-lg) var(--itl-spacing-sm);
   }
   
   .itl-password-toggle {
