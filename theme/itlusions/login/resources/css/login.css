@@ -49,10 +49,34 @@
   --itl-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes backgroundShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 /* Base Styles */
+/* Uses the official ITlusions hero background image from https://itlusions.nl/ */
 .itlusions-theme {
   font-family: var(--itl-font-family);
-  background: linear-gradient(135deg, var(--itl-gray-50) 0%, var(--itl-gray-100) 100%);
+  background: 
+    linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(15, 23, 42, 0.3) 100%),
+    url('../img/hero-bg.jpg') center center/cover no-repeat fixed;
   min-height: 100vh;
   color: var(--itl-gray-900);
   line-height: 1.6;
@@ -64,8 +88,9 @@
 
 /* Header Styling */
 .itlusions-header {
-  background: white;
-  border-bottom: var(--itl-border-width) solid var(--itl-gray-200);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: var(--itl-border-width) solid rgba(255, 255, 255, 0.2);
   padding: var(--itl-spacing-md) 0;
   box-shadow: var(--itl-shadow-sm);
 }
@@ -104,13 +129,15 @@
 
 /* Login Card */
 .itlusions-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   border-radius: var(--itl-border-radius-lg);
-  box-shadow: var(--itl-shadow-lg);
+  box-shadow: var(--itl-shadow-lg), 0 0 40px rgba(37, 99, 235, 0.1);
   padding: var(--itl-spacing-2xl);
   width: 100%;
   max-width: 400px;
-  border: var(--itl-border-width) solid var(--itl-gray-200);
+  border: var(--itl-border-width) solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.6s ease-out;
 }
 
 /* Form Header */
@@ -638,6 +665,10 @@
 
 /* Enhanced responsive design */
 @media (max-width: 640px) {
+  .itlusions-theme {
+    background-attachment: scroll; /* Better performance on mobile */
+  }
+  
   .itl-password-toggle {
     right: 0.5rem;
     font-size: 1rem;
@@ -649,6 +680,11 @@
   
   .itl-social-providers {
     gap: var(--itl-spacing-sm);
+  }
+  
+  .itlusions-card {
+    background: rgba(255, 255, 255, 0.98); /* More opaque on mobile for better readability */
+    margin: var(--itl-spacing-md);
   }
   
   .itl-form-group-title {
