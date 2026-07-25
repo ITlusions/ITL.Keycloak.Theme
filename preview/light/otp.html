@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITlusions - OTP Verification Preview</title>
+    <style>
+        :root {
+            --itl-primary: #2563eb;
+            --itl-primary-dark: #1d4ed8;
+            --itl-accent: #10b981;
+            --itl-gray-600: #475569;
+            --itl-gray-700: #334155;
+            --itl-gray-900: #0f172a;
+            
+            --itl-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            
+            --itl-spacing-md: 1rem;
+            --itl-spacing-lg: 1.5rem;
+            --itl-spacing-xl: 2rem;
+            --itl-spacing-2xl: 3rem;
+            
+            --itl-border-radius: 0.375rem;
+            --itl-border-radius-lg: 0.5rem;
+            
+            --itl-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --itl-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--itl-font-family);
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(15, 23, 42, 0.3) 100%);
+            z-index: -1;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: var(--itl-spacing-md) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        header div {
+            padding: 0 var(--itl-spacing-xl);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--itl-primary);
+        }
+
+        header h1::after {
+            content: ".";
+            color: var(--itl-accent);
+        }
+
+        .lang-switch button {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--itl-border-radius);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        main {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: calc(80px + var(--itl-spacing-xl)) var(--itl-spacing-md) var(--itl-spacing-xl);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--itl-border-radius-lg);
+            box-shadow: var(--itl-shadow-lg), 0 0 40px rgba(37, 99, 235, 0.1);
+            padding: var(--itl-spacing-2xl);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: var(--itl-spacing-xl);
+            animation: slideDown 0.6s ease-out 0.1s backwards;
+        }
+
+        .form-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--itl-gray-900);
+        }
+
+        .form-header p {
+            color: var(--itl-gray-600);
+            margin-top: var(--itl-spacing-sm);
+            font-size: 0.875rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--itl-spacing-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--itl-spacing-sm);
+            animation: fadeIn 0.6s ease-out 0.2s backwards;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--itl-gray-700);
+            font-size: 0.875rem;
+        }
+
+        .otp-inputs {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+        }
+
+        .otp-input {
+            width: 100%;
+            padding: var(--itl-spacing-md);
+            border: 2px solid #cbd5e1;
+            border-radius: var(--itl-border-radius);
+            font-size: 1.25rem;
+            text-align: center;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            transition: all 0.2s ease;
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: var(--itl-primary);
+            box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+        }
+
+        .regular-input {
+            width: 100%;
+            padding: var(--itl-spacing-md);
+            border: 1px solid #cbd5e1;
+            border-radius: var(--itl-border-radius);
+            font-size: 1rem;
+            font-family: var(--itl-font-family);
+        }
+
+        .regular-input:focus {
+            outline: none;
+            border-color: var(--itl-primary);
+            box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: var(--itl-spacing-lg);
+            background: var(--itl-primary);
+            color: white;
+            border: none;
+            border-radius: var(--itl-border-radius);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            animation: fadeIn 0.6s ease-out 0.3s backwards;
+        }
+
+        button:hover {
+            background: var(--itl-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .form-footer {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--itl-gray-600);
+            animation: fadeIn 0.6s ease-out 0.4s backwards;
+        }
+
+        .form-footer a {
+            color: var(--itl-primary);
+            text-decoration: none;
+        }
+
+        .alternative-method {
+            display: flex;
+            gap: var(--itl-spacing-md);
+            animation: fadeIn 0.6s ease-out 0.5s backwards;
+        }
+
+        .alternative-method button {
+            flex: 1;
+            padding: 0.75rem;
+            background: white;
+            color: var(--itl-primary);
+            border: 1px solid #cbd5e1;
+            border-radius: var(--itl-border-radius);
+            font-weight: 500;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .alternative-method button:hover {
+            background: #f1f5f9;
+            border-color: var(--itl-primary);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        #backup-method {
+            display: none;
+        }
+
+        /* Responsive Design - Mobile First */
+        
+        /* Extra Small Devices (320px - 374px) */
+        @media (max-width: 374px) {
+          .content-wrapper {
+            padding: calc(60px + 0.5rem) 0.5rem 0.5rem 0.5rem;
+            min-height: auto;
+          }
+
+          .card {
+            max-width: 100%;
+            padding: 1rem;
+          }
+
+          .form-header h1 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+          }
+
+          .form-header p {
+            font-size: 0.75rem;
+          }
+
+          input {
+            font-size: 16px !important;
+            padding: 0.75rem;
+          }
+
+          button {
+            padding: 1rem;
+            font-size: 0.8rem;
+          }
+        }
+
+        /* Small Devices (375px - 425px) */
+        @media (min-width: 375px) and (max-width: 425px) {
+          .content-wrapper {
+            padding: calc(70px + 1rem) 1rem 1rem 1rem;
+          }
+
+          .card {
+            max-width: 100%;
+            padding: 1.25rem;
+          }
+
+          .form-header h1 {
+            font-size: 1.375rem;
+          }
+
+          .form-header p {
+            font-size: 0.875rem;
+          }
+
+          input {
+            font-size: 16px !important;
+            padding: 0.875rem;
+          }
+
+          button {
+            padding: 1.125rem;
+            font-size: 0.875rem;
+          }
+        }
+
+        /* Medium Mobile (426px - 640px) */
+        @media (min-width: 426px) and (max-width: 640px) {
+          .content-wrapper {
+            padding: calc(75px + 1.25rem) 1.25rem 1.25rem 1.25rem;
+          }
+
+          .card {
+            max-width: 100%;
+            padding: 1.5rem;
+          }
+
+          .form-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+          }
+
+          input {
+            font-size: 16px !important;
+            padding: 1rem;
+          }
+
+          button {
+            padding: 1.25rem;
+            font-size: 0.9375rem;
+          }
+        }
+
+        /* Tablets & Small Screens (641px - 768px) */
+        @media (min-width: 641px) and (max-width: 768px) {
+          .content-wrapper {
+            padding: calc(80px + 1.5rem) 1.5rem 1.5rem 1.5rem;
+          }
+
+          .card {
+            max-width: 450px;
+            padding: 1.75rem;
+          }
+
+          .form-header h1 {
+            font-size: 1.625rem;
+          }
+        }
+
+        /* Medium Tablets (769px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .card {
+            max-width: 500px;
+            padding: 2rem;
+          }
+
+          .form-header h1 {
+            font-size: 1.75rem;
+          }
+        }
+
+        /* Large Screens (1025px+) */
+        @media (min-width: 1025px) {
+          .card {
+            max-width: 500px;
+            padding: 2.5rem;
+          }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>ITlusions</h1>
+            <div class="lang-switch">
+                <button onclick="switchLanguage('en')">English</button>
+                <button onclick="switchLanguage('nl')">Nederlands</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="card">
+            <div class="form-header">
+                <h1 id="form-title">Two-Factor Verification</h1>
+                <p id="form-subtitle">Enter the 6-digit code from your authenticator app.</p>
+            </div>
+
+            <form onsubmit="handleSubmit(event)" id="otp-method">
+                <div class="form-group">
+                    <label id="label-code">Verification Code</label>
+                    <div class="otp-inputs" id="otp-inputs">
+                        <input type="number" class="otp-input" min="0" max="9" maxlength="1" required>
+                        <input type="number" class="otp-input" min="0" max="9" maxlength="1" required>
+                        <input type="number" class="otp-input" min="0" max="9" maxlength="1" required>
+                        <input type="number" class="otp-input" min="0" max="9" maxlength="1" required>
+                        <input type="number" class="otp-input" min="0" max="9" maxlength="1" required>
+                        <input type="number" class="otp-input" min="0" max="9" maxlength="1" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-verify">Verify</button>
+
+                <div class="form-footer">
+                    <p id="no-app">Don't have your phone? <a href="#" id="link-backup" onclick="switchMethod(event)">Use backup code</a></p>
+                </div>
+            </form>
+
+            <form onsubmit="handleSubmit(event)" id="backup-method">
+                <div class="form-group">
+                    <label id="label-backup">Backup Code</label>
+                    <input type="text" class="regular-input" placeholder="e.g. XXXX-XXXX" required>
+                </div>
+
+                <button type="submit" id="btn-verify-backup">Verify</button>
+
+                <div class="form-footer">
+                    <p id="back-to-app"><a href="#" id="link-app" onclick="switchMethod(event)">Back to authenticator</a></p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 <a href="https://itlusions.nl" target="_blank" style="color: rgba(255, 255, 255, 0.9); text-decoration: none;">ITlusions</a></p>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                'form-title': 'Two-Factor Verification',
+                'form-subtitle': 'Enter the 6-digit code from your authenticator app.',
+                'label-code': 'Verification Code',
+                'btn-verify': 'Verify',
+                'no-app': 'Don\'t have your phone? ',
+                'link-backup': 'Use backup code',
+                'label-backup': 'Backup Code',
+                'btn-verify-backup': 'Verify',
+                'back-to-app': 'Back to authenticator',
+                'link-app': 'Back to authenticator'
+            },
+            nl: {
+                'form-title': 'Verificatie in Twee Stappen',
+                'form-subtitle': 'Voer de 6-cijferige code van uw authenticator-app in.',
+                'label-code': 'Verificatiecode',
+                'btn-verify': 'Verifiëren',
+                'no-app': 'Hebt u uw telefoon niet? ',
+                'link-backup': 'Gebruik back-upcode',
+                'label-backup': 'Back-upcode',
+                'btn-verify-backup': 'Verifiëren',
+                'back-to-app': 'Terug naar authenticator',
+                'link-app': 'Terug naar authenticator'
+            }
+        };
+
+        function switchLanguage(lang) {
+            const t = translations[lang];
+            for (const [key, value] of Object.entries(t)) {
+                const el = document.getElementById(key);
+                if (el) el.textContent = value;
+            }
+        }
+
+        function switchMethod(event) {
+            event.preventDefault();
+            const otpMethod = document.getElementById('otp-method');
+            const backupMethod = document.getElementById('backup-method');
+            
+            if (otpMethod.style.display === 'none') {
+                otpMethod.style.display = 'flex';
+                backupMethod.style.display = 'none';
+            } else {
+                otpMethod.style.display = 'none';
+                backupMethod.style.display = 'flex';
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('In production, this would verify your 2FA code.');
+        }
+
+        // Auto-focus next OTP input
+        document.querySelectorAll('.otp-input').forEach((input, index) => {
+            input.addEventListener('keyup', function(event) {
+                if (this.value.length === this.maxLength && index < 5) {
+                    document.querySelectorAll('.otp-input')[index + 1].focus();
+                }
+                if (event.key === 'Backspace' && index > 0 && this.value === '') {
+                    document.querySelectorAll('.otp-input')[index - 1].focus();
+                }
+            });
+        });
+
+        switchLanguage('en');
+    </script>
+</body>
+</html>
