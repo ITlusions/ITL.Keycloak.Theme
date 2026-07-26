@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITLusions - Modern Theme - Error</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            height: 600px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #ffffff;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 100px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-section {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0d1117 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            padding: 40px;
+            z-index: 1;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .content-card {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .error-icon {
+            font-size: 64px;
+            color: #dc2626;
+            margin-bottom: 24px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .accent {
+            color: #ff6b35;
+        }
+
+        .right-section {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px 70px;
+            border-radius: 16px 0 0 16px;
+            z-index: 2;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+            animation: slideInRight 0.8s ease-out;
+            border-top: 4px solid #dc2626;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .error-code {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 12px;
+            font-family: monospace;
+        }
+
+        .message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .error-details {
+            background: #fff5f5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            border-left: 4px solid #dc2626;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .error-details strong {
+            color: #991b1b;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .retry-btn, .home-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #ff6b35 0%, #f65454 100%);
+            color: white;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.35);
+        }
+
+        .home-btn {
+            background: #f3f4f6;
+            color: #333;
+            border: 1px solid #e5e7eb;
+        }
+
+        .home-btn:hover {
+            background: #e5e7eb;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                height: auto;
+            }
+            .left-section {
+                display: none;
+            }
+            .right-section {
+                position: relative;
+                width: 100%;
+                left: auto;
+                top: auto;
+                bottom: auto;
+                border-radius: 16px;
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="content-card">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="tagline">
+                    Something didn't go as <span class="accent">planned</span>
+                </div>
+                <h2 class="hero-title"><span class="accent">Let's</span> try again</h2>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="header">
+                <h1>Authentication Failed</h1>
+                <div class="error-code">Error Code: AUTH_0001</div>
+                <p class="message">Your sign-in attempt failed. Please check your credentials and try again.</p>
+            </div>
+
+            <div class="error-details">
+                <strong>Possible causes:</strong><br>
+                • Invalid email or username<br>
+                • Incorrect password<br>
+                • Account temporarily locked<br>
+                • Network connectivity issue
+            </div>
+
+            <div class="actions">
+                <button class="retry-btn" onclick="window.location.href='login.html';">
+                    <i class="fas fa-redo"></i> Try Again
+                </button>
+                <button class="home-btn" onclick="alert('Demo: Redirecting to home');">
+                    <i class="fas fa-home"></i> Home
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

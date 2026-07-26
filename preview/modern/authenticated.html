@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITLusions - Modern Theme - Success</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            height: 600px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #ffffff;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 100px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-section {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0d1117 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            padding: 40px;
+            z-index: 1;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .content-card {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            margin: 0 auto 24px;
+            animation: checkmark 0.6s ease-out;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .accent {
+            color: #ff6b35;
+        }
+
+        .right-section {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px 70px;
+            border-radius: 16px 0 0 16px;
+            z-index: 2;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .user-info {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            border-left: 4px solid #0078d4;
+            animation: fadeIn 0.6s ease-out backwards;
+            animation-delay: 0.1s;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .info-row strong {
+            color: #000;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f65454 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.35);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                height: auto;
+            }
+            .left-section {
+                display: none;
+            }
+            .right-section {
+                position: relative;
+                width: 100%;
+                left: auto;
+                top: auto;
+                bottom: auto;
+                border-radius: 16px;
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="content-card">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="tagline">
+                    You're now connected to your <span class="accent">cloud infrastructure</span>
+                </div>
+                <h2 class="hero-title"><span class="accent">Welcome</span> aboard</h2>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="header">
+                <h1>Welcome Back!</h1>
+                <p class="message">Your authentication was successful. You can now access your cloud infrastructure.</p>
+            </div>
+
+            <div class="user-info">
+                <div class="info-row">
+                    <span>User:</span>
+                    <strong>admin@itlusions.com</strong>
+                </div>
+                <div class="info-row">
+                    <span>Role:</span>
+                    <strong>Administrator</strong>
+                </div>
+                <div class="info-row">
+                    <span>Last Login:</span>
+                    <strong>Today at 14:32 UTC</strong>
+                </div>
+            </div>
+
+            <button class="continue-btn" onclick="alert('Demo: Redirecting to dashboard');">
+                Continue to Dashboard
+            </button>
+        </div>
+    </div>
+</body>
+</html>

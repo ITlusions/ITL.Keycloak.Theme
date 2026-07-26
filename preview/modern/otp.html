@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITLusions - Modern Theme - OTP Verification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            height: 600px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #ffffff;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 100px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-section {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0d1117 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            padding: 40px;
+            z-index: 1;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .content-card {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .shield-icon {
+            font-size: 64px;
+            color: #0078d4;
+            margin-bottom: 24px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .accent {
+            color: #ff6b35;
+        }
+
+        .right-section {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px 70px;
+            border-radius: 16px 0 0 16px;
+            z-index: 2;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #000;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 12px;
+            margin: 30px 0;
+            justify-content: center;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 24px;
+            text-align: center;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+            transform: scale(1.1);
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f65454 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.35);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ff5a1f;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                height: auto;
+            }
+            .left-section {
+                display: none;
+            }
+            .right-section {
+                position: relative;
+                width: 100%;
+                left: auto;
+                top: auto;
+                transform: none;
+                border-radius: 16px;
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="content-card">
+                <div class="shield-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="tagline">
+                    Securing your account with <span class="accent">two-factor authentication</span>
+                </div>
+                <h2 class="hero-title"><span class="accent">Protect</span> your access</h2>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="header">
+                <h1>Verify Identity</h1>
+                <p class="subtitle">Enter the code sent to your device</p>
+            </div>
+
+            <div class="info-text">
+                We sent a 6-digit code to your phone ending in ****1234
+            </div>
+
+            <form onsubmit="event.preventDefault(); alert('Demo: OTP verified');">
+                <div class="otp-inputs">
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric" required>
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric" required>
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric" required>
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric" required>
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric" required>
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric" required>
+                </div>
+
+                <button type="submit" class="verify-btn">Verify Code</button>
+
+                <div class="footer">
+                    Didn't receive a code? <a href="#">Resend (30s)</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keydown', (e) => {
+                if (!/[0-9]/.test(e.key) && !['Backspace', 'Tab'].includes(e.key)) e.preventDefault();
+                if (e.key === 'Backspace' && input.value === '' && index > 0) inputs[index - 1].focus();
+            });
+            input.addEventListener('input', (e) => {
+                if (e.target.value && index < inputs.length - 1) inputs[index + 1].focus();
+            });
+        });
+    </script>
+</body>
+</html>
