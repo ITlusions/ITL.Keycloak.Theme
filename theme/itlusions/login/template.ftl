@@ -13,12 +13,10 @@
     </#if>
     <title><#if realm.displayName??>${realm.displayName}<#else>ITlusions</#if> - Authentication</title>
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
-    
-    <!-- Google Fonts for Inter font family -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
+    <!-- Segoe UI is a system font (Windows) with native OS fallbacks elsewhere (see
+         --itl-font-family in login.css) - no web font fetch needed. -->
+
     <#if properties.styles?has_content>
         <#list properties.styles?split(' ') as style>
             <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
@@ -92,14 +90,19 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="itlusions-footer">
-        <p>
-            &copy; ${.now?string('yyyy')} 
-            <a href="https://itlusions.nl" target="_blank">ITlusions</a>. 
-            Your trusted partner in digital transformation.
-        </p>
-    </footer>
+    <!-- Footer: hideFooter=true in theme.properties removes it entirely (not just visually
+         hidden) so .itlusions-theme's flex-column layout gives the freed space straight back
+         to .itlusions-content-wrapper (flex: 1 1 auto) - the card gets more room automatically,
+         no extra CSS needed. Applies to every realm using this theme (see theme.properties). -->
+    <#if (properties.hideFooter!'false') != 'true'>
+        <footer class="itlusions-footer">
+            <p>
+                &copy; ${.now?string('yyyy')}
+                <a href="https://itlusions.nl" target="_blank">ITlusions</a>.
+                <span class="itlusions-footer-tagline">Your trusted partner in digital transformation.</span>
+            </p>
+        </footer>
+    </#if>
 
     <!-- Scripts -->
     <script>

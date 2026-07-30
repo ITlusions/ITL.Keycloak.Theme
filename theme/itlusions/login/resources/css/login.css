@@ -1,5 +1,6 @@
 /* ITlusions Keycloak Theme */
 /* Modern, professional design inspired by https://itlusions.nl */
+/* Kept in sync with preview/light/login.html */
 
 :root {
   /* ITlusions Color Palette */
@@ -12,7 +13,7 @@
   --itl-warning: #d97706;        /* Warning orange */
   --itl-error: #dc2626;          /* Error red */
   --itl-info: #0891b2;           /* Info cyan */
-  
+
   /* Neutral Colors */
   --itl-gray-50: #f8fafc;
   --itl-gray-100: #f1f5f9;
@@ -24,11 +25,14 @@
   --itl-gray-700: #334155;
   --itl-gray-800: #1e293b;
   --itl-gray-900: #0f172a;
-  
+
   /* Typography */
-  --itl-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  /* Same font stack Microsoft uses across Azure/M365 portals: Segoe UI is a Windows system font
+     (no @font-face/network fetch needed there), falling back to each OS's native UI font
+     elsewhere (San Francisco on macOS, Roboto on Android/ChromeOS). */
+  --itl-font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   --itl-font-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
-  
+
   /* Spacing */
   --itl-spacing-xs: 0.25rem;
   --itl-spacing-sm: 0.5rem;
@@ -36,12 +40,12 @@
   --itl-spacing-lg: 1.5rem;
   --itl-spacing-xl: 2rem;
   --itl-spacing-2xl: 3rem;
-  
+
   /* Borders */
   --itl-border-radius: 0.375rem;
   --itl-border-radius-lg: 0.5rem;
   --itl-border-width: 1px;
-  
+
   /* Shadows */
   --itl-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --itl-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -49,16 +53,15 @@
   --itl-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-/* Respect user's motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .itlusions-theme::before {
-    transform: none !important;
-    transition: none !important;
-  }
-  
-  .itlusions-card {
-    animation: none !important;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
 /* Keyframe animations */
@@ -73,6 +76,28 @@
   }
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @keyframes backgroundShift {
   0%, 100% {
     background-position: 0% 50%;
@@ -82,17 +107,53 @@
   }
 }
 
+@keyframes checkmark {
+  0% {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+  }
+  100% {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
 /* Base Styles */
 /* Uses the official ITlusions hero background image from https://itlusions.nl/ */
 .itlusions-theme {
   font-family: var(--itl-font-family);
-  min-height: 100vh;
+  /* A definite height (not just min-height) is required for the flex-shrink math below to have
+     something concrete to shrink into - with only min-height, the box simply grows to fit its
+     children's natural size (the card's own explicit 652px height) instead of constraining it,
+     which pushes the footer off the bottom of the viewport on shorter screens. */
+  height: 100vh;
   color: var(--itl-gray-900);
   line-height: 1.6;
   margin: 0;
   padding: 0;
   position: relative;
   overflow: hidden;
+  /* Header/content/footer are normal-flow flex children (not position: fixed) so the browser
+     reserves exactly whatever space the header and footer actually need - including when the
+     footer text wraps to multiple lines at narrow widths - instead of us guessing a pixel
+     height per breakpoint and getting it wrong. */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Interactive background with mouse-following effect */
@@ -103,10 +164,10 @@
   left: -5%;
   width: 110%;
   height: 110%;
-  background: 
+  background:
     linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(15, 23, 42, 0.3) 100%),
     url('../img/hero-bg.jpg') center center/cover no-repeat;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother, more elegant easing */
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: translate(var(--mouse-x, 0%), var(--mouse-y, 0%));
   z-index: -1;
 }
@@ -115,24 +176,18 @@
   box-sizing: border-box;
 }
 
-/* Reset any default margins/padding */
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
 /* Header Styling */
-.itlusions-header {
+.itlusions-header,
+.kc-header {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: var(--itl-border-width) solid rgba(255, 255, 255, 0.2);
-  padding: var(--itl-spacing-md) 0;
+  /* Tightened from --itl-spacing-md (1rem): a small, low-risk saving that adds to the card's
+     available max-height budget on shorter viewports (see .itlusions-footer for the bigger one). */
+  padding: 0.75rem 0;
   box-shadow: var(--itl-shadow-sm);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   width: 100%;
+  flex-shrink: 0;
   z-index: 1000;
 }
 
@@ -143,41 +198,143 @@ html, body {
   padding: 0 var(--itl-spacing-xl);
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+}
+
+/* Flex items default to min-width: auto (their content's natural min width), which can force
+   this row wider than an extremely narrow viewport and break centering elsewhere on the page.
+   min-width: 0 lets them shrink/wrap instead. */
+.itlusions-header-wrapper > * {
+  min-width: 0;
 }
 
 /* Logo and Branding */
-.itlusions-header h1 {
-  font-size: 1.875rem;
+.itlusions-header h1,
+.kc-header h1 {
+  /* Fluid typography: scales continuously with viewport width between these two bounds instead
+     of jumping at each breakpoint. Roughly interpolates from 1.25rem at a 320px viewport up to
+     1.875rem at 1280px+, floored/capped at those values outside that range. */
+  font-size: clamp(1.125rem, 1vw + 0.9rem, 1.75rem);
   font-weight: 700;
   color: var(--itl-primary);
   margin: 0;
   letter-spacing: -0.025em;
+  overflow-wrap: break-word;
 }
 
-.itlusions-header h1::after {
+.itlusions-header h1::after,
+.kc-header h1::after {
   content: ".";
   color: var(--itl-accent);
 }
 
+/* Language Selector */
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.language-dropdown button {
+  padding: var(--itl-spacing-sm) var(--itl-spacing-md);
+  background: white;
+  border: var(--itl-border-width) solid var(--itl-gray-300);
+  border-radius: var(--itl-border-radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--itl-gray-700);
+  transition: all 0.2s ease;
+}
+
+.language-dropdown button:hover {
+  background: var(--itl-gray-50);
+  border-color: var(--itl-gray-400);
+}
+
+.language-dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  min-width: 160px;
+  box-shadow: var(--itl-shadow-lg);
+  border: var(--itl-border-width) solid var(--itl-gray-200);
+  border-radius: var(--itl-border-radius);
+  z-index: 1001;
+  top: 100%;
+  right: 0;
+  margin-top: var(--itl-spacing-xs);
+}
+
+.language-dropdown-content a {
+  color: var(--itl-gray-700);
+  padding: var(--itl-spacing-md);
+  text-decoration: none;
+  display: block;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.language-dropdown-content a:hover {
+  background: var(--itl-gray-50);
+}
+
+.language-dropdown:hover .language-dropdown-content {
+  display: block;
+}
+
 /* Main Content Layout */
+/* NOTE: #kc-form is NOT the page-level content wrapper - it's login.ftl's own inner div that
+   wraps the <form> + social-providers section, nested INSIDE .itlusions-card. It must never
+   share this centering/grid rule: that previously caused #kc-form's children to shrink to their
+   own content width and center instead of stretching full-width (barely visible on the <form>
+   itself since its inputs have enough intrinsic width to look right by coincidence, but glaring
+   on .itlusions-social-providers, which collapsed to ~100px instead of the full card width). */
 .itlusions-content-wrapper {
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  padding: calc(80px + var(--itl-spacing-xl)) var(--itl-spacing-md) var(--itl-spacing-xl) var(--itl-spacing-md);
+  /* Grid (not flex) for centering: flexbox's justify-content/align-items: center falls back to
+     a "safe" start-aligned position when the centered content overflows its container, which
+     makes the card visibly jump toward a corner on extremely narrow/short viewports. A single-cell
+     grid centers the same way in normal cases but does not exhibit that fallback-alignment jump. */
+  display: grid;
+  /* Grid tracks default to "auto" sizing, which grows to fit the item's natural/specified size
+     (the card's explicit 652px height) rather than staying at the container's actual available
+     space - the Grid equivalent of flexbox's min-width:auto problem. minmax(0, 1fr) forces the
+     single cell to always be exactly 100% of this container, so the card's max-height: 100%
+     (below) resolves against real available space instead of the card's own oversized content. */
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  /* flex: 1 makes this fill exactly whatever vertical space the header/footer don't use, however
+     tall they actually render (e.g. the footer wrapping to 2-3 lines at narrow widths) - so the
+     card is always centered in the real available area instead of a hand-guessed pixel estimate.
+     min-height: 0 lets this flex item shrink below its content size, which is required for the
+     card's own max-height/overflow-y:auto (below) to be able to clamp it. */
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--itl-spacing-md);
 }
 
 /* Login Card */
-.itlusions-card {
+.itlusions-card,
+.kc-form-wrapper {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: var(--itl-border-radius-lg);
   box-shadow: var(--itl-shadow-lg), 0 0 40px rgba(37, 99, 235, 0.1);
   padding: var(--itl-spacing-2xl);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
+  /* 652px is a target size, not a rigid one: height: auto + min-height lets the card grow taller
+     when real content needs more room (e.g. every optional login feature enabled - remember-me,
+     reset password, registration, social login - genuinely needs more than 652px), instead of
+     clipping/scrolling content that barely overflows a fixed height. It still won't grow past
+     max-height: 100% (below), which clamps it to whatever space is actually left after the
+     header/footer take their real height, so it still can't overlap either of them. */
+  height: auto;
+  min-height: min(652px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  flex-shrink: 0;
+  min-width: 0;
   border: var(--itl-border-width) solid rgba(255, 255, 255, 0.2);
   animation: fadeIn 0.6s ease-out;
 }
@@ -185,11 +342,14 @@ html, body {
 /* Form Header */
 .itlusions-form-header {
   text-align: center;
-  margin-bottom: var(--itl-spacing-xl);
+  /* Tightened from --itl-spacing-xl (2rem), then again from --itl-spacing-lg (1.5rem). */
+  margin-bottom: 1.25rem;
+  animation: slideDown 0.6s ease-out 0.1s backwards;
 }
 
 .itlusions-form-header h1 {
-  font-size: 1.5rem;
+  /* Fluid typography: see .itlusions-header h1 above for the rationale. */
+  font-size: clamp(1.125rem, 0.85vw + 0.95rem, 1.625rem);
   font-weight: 600;
   color: var(--itl-gray-900);
   margin: 0 0 var(--itl-spacing-sm) 0;
@@ -198,38 +358,57 @@ html, body {
 .itlusions-form-header p {
   color: var(--itl-gray-600);
   margin: 0;
-  font-size: 0.875rem;
+  font-size: clamp(0.7rem, 0.4vw + 0.62rem, 0.9375rem);
 }
 
 /* Form Styling */
 .itlusions-form {
   display: flex;
   flex-direction: column;
-  gap: var(--itl-spacing-lg);
+  /* Tightened from --itl-spacing-lg (1.5rem), then --itl-spacing-md (1rem): with several optional
+     login features enabled at once (remember-me, reset password, registration, multiple social
+     providers), the accumulated gap was a meaningful contributor to content overflowing the card
+     on shorter viewports. */
+  gap: 0.875rem;
 }
 
 .itlusions-form-group {
   display: flex;
   flex-direction: column;
   gap: var(--itl-spacing-sm);
+  animation: fadeIn 0.6s ease-out backwards;
+}
+
+.itlusions-form-group:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.itlusions-form-group:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.itlusions-form-group:nth-child(3) {
+  animation-delay: 0.4s;
 }
 
 .itlusions-label {
   font-weight: 500;
   color: var(--itl-gray-700);
-  font-size: 0.875rem;
+  font-size: clamp(0.7rem, 0.2vw + 0.66rem, 0.8125rem);
   letter-spacing: 0.025em;
 }
 
 /* Input Styling */
 .itlusions-input {
-  padding: var(--itl-spacing-md);
+  /* Tightened from --itl-spacing-md (1rem). */
+  padding: 0.875rem;
   border: var(--itl-border-width) solid var(--itl-gray-300);
   border-radius: var(--itl-border-radius);
   font-size: 1rem;
   transition: all 0.2s ease-in-out;
   background: white;
   color: var(--itl-gray-900);
+  font-family: var(--itl-font-family);
 }
 
 .itlusions-input:focus {
@@ -248,9 +427,38 @@ html, body {
   color: var(--itl-gray-400);
 }
 
+/* Checkbox Styling */
+.itlusions-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--itl-spacing-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.itlusions-checkbox input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--itl-primary);
+  cursor: pointer;
+}
+
+.itlusions-checkbox label {
+  margin: 0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-weight: 400;
+  color: var(--itl-gray-700);
+}
+
 /* Button Styling */
 .itlusions-button {
-  padding: var(--itl-spacing-md) var(--itl-spacing-lg);
+  /* Tightened from var(--itl-spacing-md) var(--itl-spacing-lg) (1rem/1.5rem). Vertical padding is
+     the actual height driver here, not min-height below - padding + line-height comfortably
+     exceeds the min-height floor, so this is where real savings come from. Multiplied by every
+     button on the card (Sign In + N social providers), this was the single highest-leverage cut
+     toward fitting 2 social providers above the fold on common short-height desktop windows
+     (e.g. 1366x768). */
+  padding: 0.75rem var(--itl-spacing-lg);
   border-radius: var(--itl-border-radius);
   font-weight: 500;
   font-size: 0.875rem;
@@ -262,14 +470,19 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: var(--itl-spacing-sm);
-  min-height: 2.5rem;
+  /* Tightened from 2.5rem: with the Sign In button plus up to N social provider buttons all
+     sharing this class, small per-button savings compound - meaningful toward fitting everything
+     above the fold on shorter viewports with multiple providers enabled. */
+  min-height: 2.25rem;
   letter-spacing: 0.025em;
+  font-family: var(--itl-font-family);
 }
 
 .itlusions-button--primary {
   background: var(--itl-primary);
   color: white;
   border-color: var(--itl-primary);
+  width: 100%;
 }
 
 .itlusions-button--primary:hover {
@@ -296,10 +509,69 @@ html, body {
   min-height: 3rem;
 }
 
+.itlusions-button--social {
+  background: white;
+  border-color: var(--itl-gray-300);
+  color: var(--itl-gray-700);
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.itlusions-button--social:hover {
+  background: var(--itl-gray-50);
+  border-color: var(--itl-gray-400);
+}
+
+.itlusions-button--social i,
+.itlusions-button--social svg {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .itlusions-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none !important;
+}
+
+/* Social Providers */
+.itlusions-social-providers {
+  margin-top: var(--itl-spacing-md);
+  padding-top: var(--itl-spacing-md);
+  border-top: var(--itl-border-width) solid var(--itl-gray-200);
+  display: flex;
+  flex-direction: column;
+  /* Tightened from --itl-spacing-md (1rem): with 2+ providers stacked, this gap is multiplied
+     by (N-1), so it's one of the higher-leverage places to trim when several are configured. */
+  gap: var(--itl-spacing-sm);
+  animation: fadeIn 0.6s ease-out 0.6s backwards;
+}
+
+/* Form Options */
+.itlusions-form-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--itl-spacing-sm);
+  font-size: 0.875rem;
+  margin-top: var(--itl-spacing-md);
+  animation: fadeIn 0.6s ease-out 0.5s backwards;
+}
+
+.itlusions-form-options a {
+  color: var(--itl-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.itlusions-form-options a:hover {
+  color: var(--itl-primary-dark);
+  text-decoration: underline;
 }
 
 /* Alert Styling */
@@ -336,117 +608,44 @@ html, body {
   color: var(--itl-info);
 }
 
-/* Form Options */
-.itlusions-form-options {
-  display: flex;
-  flex-direction: column;
-  gap: var(--itl-spacing-md);
-  margin-top: var(--itl-spacing-lg);
-}
-
-.itlusions-form-options a {
-  color: var(--itl-primary);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-align: center;
-  transition: color 0.2s ease-in-out;
-}
-
-.itlusions-form-options a:hover {
-  color: var(--itl-primary-dark);
-  text-decoration: underline;
-}
-
-/* Social Providers */
-.itlusions-social-providers {
-  margin-top: var(--itl-spacing-lg);
-  padding-top: var(--itl-spacing-lg);
-  border-top: var(--itl-border-width) solid var(--itl-gray-200);
-  display: flex;
-  flex-direction: column;
-  gap: var(--itl-spacing-md);
-}
-
-.itlusions-button--social {
-  background: white;
-  border-color: var(--itl-gray-300);
-  color: var(--itl-gray-700);
-  justify-content: flex-start;
-  position: relative;
-}
-
-.itlusions-button--social:hover {
-  background: var(--itl-gray-50);
-  border-color: var(--itl-gray-400);
-}
-
-/* Language Selector */
-.language-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.language-dropdown-content {
-  display: none;
-  position: absolute;
-  background: white;
-  min-width: 160px;
-  box-shadow: var(--itl-shadow-lg);
-  border: var(--itl-border-width) solid var(--itl-gray-200);
+.itlusions-error-message {
+  background: rgb(239 68 68 / 0.1);
+  border: var(--itl-border-width) solid var(--itl-error);
   border-radius: var(--itl-border-radius);
-  z-index: 1000;
-  top: 100%;
-  right: 0;
-}
-
-.language-dropdown-content a {
-  color: var(--itl-gray-700);
+  color: var(--itl-error);
   padding: var(--itl-spacing-md);
-  text-decoration: none;
-  display: block;
   font-size: 0.875rem;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.language-dropdown-content a:hover {
-  background: var(--itl-gray-50);
-}
-
-.language-dropdown:hover .language-dropdown-content {
-  display: block;
+  margin-top: var(--itl-spacing-sm);
+  animation: fadeIn 0.3s ease-out;
 }
 
 /* Footer */
-.itlusions-footer {
+.itlusions-footer,
+footer {
   text-align: center;
-  padding: var(--itl-spacing-xl);
+  /* Tightened from --itl-spacing-xl (2rem) top/bottom: the biggest single contributor to the
+     footer's real height, which directly shrinks the card's available max-height budget on
+     shorter viewports - this alone was enough to push social login buttons entirely below the
+     fold on common laptop/tablet-landscape window sizes once several login features were
+     enabled. Horizontal padding kept wide so the copyright text still has breathing room. */
+  padding: var(--itl-spacing-md) var(--itl-spacing-xl);
   color: var(--itl-gray-500);
   font-size: 0.875rem;
+  width: 100%;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 500;
 }
 
-.itlusions-footer a {
+.itlusions-footer a,
+footer a {
   color: var(--itl-primary);
   text-decoration: none;
 }
 
-.itlusions-footer a:hover {
+.itlusions-footer a:hover,
+footer a:hover {
   text-decoration: underline;
-}
-
-/* Responsive Design */
-@media (max-width: 640px) {
-  .itlusions-content-wrapper {
-    padding: var(--itl-spacing-md);
-  }
-  
-  .itlusions-card {
-    padding: var(--itl-spacing-lg);
-  }
-  
-  .itlusions-header-wrapper {
-    padding: 0 var(--itl-spacing-sm);
-  }
 }
 
 /* Loading Animation */
@@ -459,63 +658,6 @@ html, body {
   border-top-color: var(--itl-primary);
   animation: spin 1s ease-in-out infinite;
 }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Custom Form Enhancements */
-.itlusions-checkbox {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--itl-spacing-sm);
-  font-size: 0.875rem;
-}
-
-.itlusions-checkbox input[type="checkbox"] {
-  margin: 0;
-  width: 1rem;
-  height: 1rem;
-  accent-color: var(--itl-primary);
-}
-
-/* Focus management for accessibility */
-.itlusions-theme :focus-visible {
-  outline: 2px solid var(--itl-primary);
-  outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --itl-primary: #0066cc;
-    --itl-gray-300: #666666;
-    --itl-gray-600: #333333;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Print styles */
-@media print {
-  .itlusions-theme {
-    background: white !important;
-  }
-  
-  .itlusions-card {
-    box-shadow: none !important;
-    border: 1px solid #000 !important;
-  }
-}
-
-/* Additional components for new pages */
 
 /* Password field styles */
 .itl-password-field {
@@ -579,7 +721,7 @@ html, body {
   font-weight: 500;
 }
 
-/* Social providers */
+/* Social providers (alternate/legacy markup) */
 .itl-social-providers {
   display: flex;
   flex-direction: column;
@@ -629,7 +771,7 @@ html, body {
   margin: var(--itl-spacing-xl) 0;
 }
 
-/* Form groups */
+/* Form groups (alternate markup) */
 .itl-form-group {
   margin-bottom: var(--itl-spacing-xl);
 }
@@ -705,49 +847,439 @@ html, body {
   font-size: 0.875rem;
 }
 
-/* Enhanced responsive design */
+/* Focus management for accessibility */
+.itlusions-theme :focus-visible {
+  outline: 2px solid var(--itl-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --itl-primary: #0066cc;
+    --itl-gray-300: #666666;
+    --itl-gray-600: #333333;
+  }
+}
+
+/* Print styles */
+@media print {
+  .itlusions-theme {
+    background: white !important;
+  }
+
+  .itlusions-card {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .itlusions-theme::before {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .itlusions-card {
+    animation: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Responsive Design - Mobile First (matches preview/light/login.html) */
+
+/* Extra Small Devices (legacy phones / foldable cover screens, up to 359px) */
+@media (max-width: 359px) {
+  .itlusions-header {
+    padding: 0.75rem 0;
+  }
+
+  .language-dropdown button {
+    padding: var(--itl-spacing-xs) 0.375rem;
+    font-size: 0.65rem;
+  }
+
+  .itlusions-content-wrapper {
+    padding: 0.5rem;
+  }
+
+  .itlusions-footer,
+  footer {
+    padding: var(--itl-spacing-xs) var(--itl-spacing-sm);
+    font-size: 0.7rem;
+  }
+
+  .itlusions-footer-tagline {
+    display: none;
+  }
+
+  .itlusions-card,
+  .kc-form-wrapper {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    min-height: min(420px, 100%);
+    padding: 1rem;
+    margin: 0;
+  }
+
+  .itlusions-form-header h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .itlusions-form-group {
+    margin-bottom: 1rem;
+  }
+
+  .itlusions-label {
+    margin-bottom: 0.25rem;
+  }
+
+  .itlusions-input {
+    font-size: 16px;
+    padding: 0.75rem;
+  }
+
+  .itlusions-button {
+    padding: 1rem;
+    font-size: 0.8rem;
+    border-radius: 0.25rem;
+  }
+
+  .itlusions-form-options,
+  .itl-divider,
+  .itlusions-social-providers {
+    margin-top: 1rem;
+  }
+}
+
+/* Small Devices (360px - 425px): covers current Galaxy S/S+/Ultra and iPhone 16 series */
+@media (min-width: 360px) and (max-width: 425px) {
+  .itlusions-content-wrapper {
+    /* Tightened from 1rem: this directly increases the card's available max-height budget
+       (rather than shrinking card content further) - see .itlusions-card below. */
+    padding: 0.75rem;
+  }
+
+  .itlusions-card,
+  .kc-form-wrapper {
+    max-width: 100%;
+    height: auto;
+    /* 480px on real devices in this range (all 780px+ tall); min() against 100% (the actual
+       remaining space after the header/footer, whatever their real height is) keeps it from
+       ever forcing overlap on an unrealistically short/custom viewport. */
+    min-height: min(480px, 100%);
+    /* Tightened from 2rem: the base Galaxy S24/S25 (360x780, the shortest device in this width
+       bucket) was still 14px taller than available space with 2 social providers + every other
+       optional login feature enabled - just enough to silently clip the tail of the bottom
+       padding via the max-height clamp, which read as "less space below the last button" even
+       though nothing was structurally different from a taller device like the Ultra. */
+    padding: 1.75rem;
+  }
+
+  .itlusions-input {
+    font-size: 16px;
+    padding: 1rem;
+  }
+
+  /* Padding tightened from 1.375rem: still noticeably larger than the desktop base (good, keeps
+     a bigger mobile touch target), but the previous value combined with 2+ social provider
+     buttons pushed content well below the fold on shorter phones like the base Galaxy S24/S25. */
+  .itlusions-button {
+    padding: 1rem;
+    font-size: 0.9375rem;
+  }
+}
+
+/* Medium Mobile (426px - 640px) */
+@media (min-width: 426px) and (max-width: 640px) {
+  .itlusions-content-wrapper {
+    padding: 1.25rem;
+  }
+
+  .itlusions-card,
+  .kc-form-wrapper {
+    max-width: 100%;
+    height: auto;
+    min-height: min(520px, 100%);
+    padding: 2.25rem;
+  }
+
+  .itlusions-form-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .itlusions-input {
+    font-size: 16px;
+    padding: 1.125rem;
+  }
+
+  /* Padding tightened from 1.5rem - see the 360-425px breakpoint's .itlusions-button for why. */
+  .itlusions-button {
+    padding: 1.125rem;
+    font-size: 1rem;
+  }
+}
+
+/* Tablets & Small Screens (641px - 768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .itlusions-content-wrapper {
+    padding: 1.5rem;
+  }
+
+  .itlusions-card,
+  .kc-form-wrapper {
+    max-width: 450px;
+    height: auto;
+    min-height: min(560px, 100%);
+    padding: 1.75rem;
+  }
+}
+
+/* Medium Tablets (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .itlusions-card,
+  .kc-form-wrapper {
+    max-width: 500px;
+    padding: 2rem;
+  }
+}
+
+/* Large Screens (1025px+) */
+@media (min-width: 1025px) {
+  .itlusions-card,
+  .kc-form-wrapper {
+    max-width: 500px;
+    /* Tightened from 2.5rem, then 2rem: reclaims space toward the card's available content
+       height on short-height desktop/laptop windows (e.g. 1366x768) once several login features
+       are enabled at once. */
+    padding: 1.75rem;
+  }
+}
+
+/* Generic Mobile Fallback (max-width: 640px) */
 @media (max-width: 640px) {
   .itlusions-theme {
     background-attachment: scroll; /* Better performance on mobile */
   }
-  
+
   .itlusions-header-wrapper {
-    padding: 0 var(--itl-spacing-md);
+    padding: 0 var(--itl-spacing-sm);
   }
-  
-  .itlusions-header h1 {
-    font-size: 1.5rem;
+
+  .language-dropdown button {
+    padding: var(--itl-spacing-xs) var(--itl-spacing-sm);
+    font-size: 0.75rem;
   }
-  
-  .itlusions-content-wrapper {
-    padding: calc(70px + var(--itl-spacing-lg)) var(--itl-spacing-sm) var(--itl-spacing-lg) var(--itl-spacing-sm);
+
+  .itlusions-card,
+  .kc-form-wrapper {
+    background: rgba(255, 255, 255, 0.98); /* More opaque on mobile for better readability */
   }
-  
+
   .itl-password-toggle {
     right: 0.5rem;
     font-size: 1rem;
   }
-  
+
   .itl-password-field .itl-input {
     padding-right: 2.5rem;
   }
-  
+
   .itl-social-providers {
     gap: var(--itl-spacing-sm);
   }
-  
-  .itlusions-card {
-    background: rgba(255, 255, 255, 0.98); /* More opaque on mobile for better readability */
-    margin: var(--itl-spacing-md);
+
+  .itl-form-group-title {
+    font-size: 1rem;
   }
-  
+
   /* Disable interactive background on mobile for performance */
   .itlusions-theme::before {
     transform: none !important;
     background-attachment: scroll;
   }
-  
-  .itl-form-group-title {
+}
+
+/* ==========================================================================
+   Authenticated Page Styles (used by other templates, e.g. account console)
+   ========================================================================== */
+
+#kc-authenticated {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authenticated-content {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--itl-spacing-2xl);
+}
+
+.authenticated-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--itl-accent) 0%, var(--itl-success) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  animation: scaleIn 0.5s ease-out;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+}
+
+.success-icon {
+  width: 48px;
+  height: 48px;
+  color: white;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: checkmark 0.6s ease-out 0.2s both;
+}
+
+.authenticated-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--itl-gray-900);
+  margin: 0;
+  letter-spacing: -0.025em;
+  animation: slideDown 0.6s ease-out;
+}
+
+.authenticated-message {
+  font-size: 1.125rem;
+  color: var(--itl-gray-700);
+  margin: 0;
+  font-weight: 500;
+  animation: slideDown 0.6s ease-out 0.1s both;
+}
+
+.authenticated-subtitle {
+  font-size: 0.95rem;
+  color: var(--itl-gray-600);
+  margin: 0;
+  animation: slideDown 0.6s ease-out 0.2s both;
+  line-height: 1.6;
+}
+
+#countdown {
+  font-weight: 700;
+  color: var(--itl-primary);
+}
+
+.authenticated-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  background: var(--itl-primary);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  min-height: 3rem;
+  letter-spacing: 0.025em;
+  animation: slideDown 0.6s ease-out 0.3s both;
+  align-self: center;
+  min-width: 200px;
+}
+
+.authenticated-button:hover {
+  background: var(--itl-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--itl-shadow-lg);
+}
+
+.authenticated-button:active {
+  transform: translateY(0);
+}
+
+.authenticated-content.redirecting {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Language Switcher (standalone variant used on some pages) */
+.lang-switch {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 999;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lang-switch button {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid var(--itl-gray-300);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--itl-gray-700);
+  transition: all 0.2s ease;
+}
+
+.lang-switch button:hover {
+  background: var(--itl-gray-50);
+  border-color: var(--itl-gray-400);
+}
+
+.lang-switch button.active {
+  background: var(--itl-primary);
+  color: white;
+  border-color: var(--itl-primary);
+}
+
+/* Mobile responsive - authenticated page */
+@media (max-width: 640px) {
+  .authenticated-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .success-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .authenticated-title {
+    font-size: 1.5rem;
+  }
+
+  .authenticated-message {
     font-size: 1rem;
+  }
+
+  .authenticated-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .authenticated-button {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .lang-switch {
+    top: 65px;
+    right: 10px;
   }
 }
