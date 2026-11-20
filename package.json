@@ -28,6 +28,7 @@
     "branding"
   ],
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "copy-webpack-plugin": "^13.0.1",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1"

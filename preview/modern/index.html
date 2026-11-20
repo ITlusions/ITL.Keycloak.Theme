@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITLusions - Modern Theme Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0f1419;
+            margin-bottom: 50px;
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .preview-thumbnail {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0d1117 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .preview-info {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .preview-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .preview-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ff6b35;
+            font-weight: 500;
+            text-decoration: none;
+            transition: gap 0.3s ease;
+        }
+
+        .preview-link:hover {
+            gap: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #666;
+            font-size: 14px;
+        }
+
+        .theme-selector {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .theme-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .theme-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .theme-btn:hover, .theme-btn.active {
+            background: #ff6b35;
+            border-color: #ff6b35;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ITLusions Keycloak Theme Preview</h1>
+
+        <div class="theme-selector">
+            <div class="theme-buttons">
+                <a href="../modern/index.html" class="theme-btn active">Modern</a>
+                <a href="../minimal/index.html" class="theme-btn">Minimal</a>
+                <a href="../gradient/index.html" class="theme-btn">Gradient</a>
+                <a href="../glass/index.html" class="theme-btn">Glass</a>
+            </div>
+        </div>
+
+        <div class="preview-grid">
+            <a href="login.html" class="preview-card">
+                <div class="preview-thumbnail">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-title">Sign In</div>
+                    <div class="preview-desc">Modern split-screen login with dark showcase panel</div>
+                    <a class="preview-link" href="login.html">
+                        <span>View</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </a>
+
+            <a href="register.html" class="preview-card">
+                <div class="preview-thumbnail">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-title">Register</div>
+                    <div class="preview-desc">Account creation with multi-step form</div>
+                    <a class="preview-link" href="register.html">
+                        <span>View</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </a>
+
+            <a href="otp.html" class="preview-card">
+                <div class="preview-thumbnail">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-title">OTP Verification</div>
+                    <div class="preview-desc">Two-factor authentication with code input</div>
+                    <a class="preview-link" href="otp.html">
+                        <span>View</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </a>
+
+            <a href="reset-password.html" class="preview-card">
+                <div class="preview-thumbnail">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-title">Reset Password</div>
+                    <div class="preview-desc">Secure password recovery flow</div>
+                    <a class="preview-link" href="reset-password.html">
+                        <span>View</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </a>
+
+            <a href="authenticated.html" class="preview-card">
+                <div class="preview-thumbnail">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-title">Success Page</div>
+                    <div class="preview-desc">Authentication successful confirmation</div>
+                    <a class="preview-link" href="authenticated.html">
+                        <span>View</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </a>
+
+            <a href="error.html" class="preview-card">
+                <div class="preview-thumbnail">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-title">Error Page</div>
+                    <div class="preview-desc">Error handling and user guidance</div>
+                    <a class="preview-link" href="error.html">
+                        <span>View</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024-2025 ITLusions Inc. | Modern Keycloak Theme Preview</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!--
+  ITlusions Keycloak Theme - Base Shell (preview)
+
+  This is the static-HTML mirror of theme/itlusions/login/template.ftl.
+  It is NOT meant to be opened directly - it has no page-specific content.
+  It exists so every preview page (login.html, register.html, otp.html,
+  error.html, reset-password.html, authenticated.html) can be built from
+  the SAME shell instead of each hand-rolling its own copy (which is how
+  register.html etc. drifted out of sync with login.css today).
+
+  How to use this file:
+    1. Copy base.html to <page-name>.html
+    2. Replace the two placeholder blocks below, marked with
+       "ITL:FORM CONTENT" and "ITL:INFO CONTENT" start/end comments:
+         - FORM CONTENT maps to login.ftl's section == "form" branch
+         - INFO CONTENT maps to login.ftl's section == "info" branch;
+           delete the whole block if the page has no "info" section
+    3. Update <title> and, if the realm/page has a different heading,
+       the "Form Header" text below (template.ftl renders this from
+       realm.displayName - here it's hardcoded to the default fallback).
+
+  Shared assets (login.css / login.js) match theme/itlusions/login/resources/
+  exactly, same as login.html already does.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ITlusions - Authentication</title>
+    <!-- Segoe UI is a system font (Windows) with native OS fallbacks elsewhere - no web font
+         fetch needed, unlike the previous Google Fonts (Inter) setup. -->
+    <link href="login.css" rel="stylesheet">
+</head>
+
+<body class="itlusions-theme itlusions-responsive">
+    <!-- Header (template.ftl: <header class="${properties.kcHeaderClass!}">) -->
+    <header class="itlusions-header">
+        <div class="itlusions-header-wrapper">
+            <h1>ITlusions</h1>
+            <!-- template.ftl only renders this if realm.internationalizationEnabled && locale.supported?size gt 1 -->
+            <div class="language-dropdown">
+                <button type="button" id="lang-btn">en</button>
+                <div class="language-dropdown-content">
+                    <a href="#" onclick="setLanguage('en'); return false;">English</a>
+                    <a href="#" onclick="setLanguage('nl'); return false;">Nederlands</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content (template.ftl: <main class="${properties.kcContentWrapperClass!}">) -->
+    <main class="itlusions-content-wrapper">
+        <div class="itlusions-card">
+            <!-- Form Header - rendered by template.ftl itself, not by the page template -->
+            <div class="itlusions-form-header">
+                <h1 id="form-title">Welcome to ITlusions</h1>
+                <p id="form-subtitle">Empowering Your DevOps Transformation</p>
+            </div>
+
+            <!-- Message alert - template.ftl only renders this if displayMessage && message?has_content -->
+            <!--
+            <div class="alert-wrapper">
+                <div class="itlusions-alert itlusions-alert--error">
+                    <span>Example error message</span>
+                </div>
+            </div>
+            -->
+
+            <!-- ITL:FORM CONTENT -->
+            <!-- Page-specific markup goes here (equivalent to <#nested "form">) -->
+            <!-- /ITL:FORM CONTENT -->
+
+            <!-- ITL:INFO CONTENT (optional) -->
+            <!-- Only present when the page passes displayInfo=true to registrationLayout -->
+            <!--
+            <div class="itlusions-form-options">
+                Page-specific info content goes here (equivalent to <#nested "info">)
+            </div>
+            -->
+            <!-- /ITL:INFO CONTENT -->
+        </div>
+    </main>
+
+    <!-- Footer (template.ftl: static copyright block) -->
+    <footer class="itlusions-footer">
+        <p>
+            &copy; 2026
+            <a href="https://itlusions.nl" target="_blank">ITlusions</a>.
+            <span class="itlusions-footer-tagline">Your trusted partner in digital transformation.</span>
+        </p>
+    </footer>
+
+    <script src="login.js"></script>
+</body>
+</html>

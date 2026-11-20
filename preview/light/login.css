@@ -1,0 +1,759 @@
+/* ITlusions Keycloak Theme */
+/* Exact CSS from login.css */
+
+:root {
+  /* ITlusions Color Palette */
+  --itl-primary: #2563eb;        /* Blue primary */
+  --itl-primary-dark: #1d4ed8;   /* Darker blue */
+  --itl-primary-light: #3b82f6;  /* Lighter blue */
+  --itl-secondary: #64748b;      /* Slate gray */
+  --itl-accent: #10b981;         /* Emerald green */
+  --itl-success: #059669;        /* Success green */
+  --itl-warning: #d97706;        /* Warning orange */
+  --itl-error: #dc2626;          /* Error red */
+  --itl-info: #0891b2;           /* Info cyan */
+
+  /* Neutral Colors */
+  --itl-gray-50: #f8fafc;
+  --itl-gray-100: #f1f5f9;
+  --itl-gray-200: #e2e8f0;
+  --itl-gray-300: #cbd5e1;
+  --itl-gray-400: #94a3b8;
+  --itl-gray-500: #64748b;
+  --itl-gray-600: #475569;
+  --itl-gray-700: #334155;
+  --itl-gray-800: #1e293b;
+  --itl-gray-900: #0f172a;
+
+  /* Typography */
+  /* Same font stack Microsoft uses across Azure/M365 portals: Segoe UI is a Windows system font
+     (no @font-face/network fetch needed there), falling back to each OS's native UI font
+     elsewhere (San Francisco on macOS, Roboto on Android/ChromeOS). */
+  --itl-font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --itl-font-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+
+  /* Spacing */
+  --itl-spacing-xs: 0.25rem;
+  --itl-spacing-sm: 0.5rem;
+  --itl-spacing-md: 1rem;
+  --itl-spacing-lg: 1.5rem;
+  --itl-spacing-xl: 2rem;
+  --itl-spacing-2xl: 3rem;
+
+  /* Borders */
+  --itl-border-radius: 0.375rem;
+  --itl-border-radius-lg: 0.5rem;
+  --itl-border-width: 1px;
+
+  /* Shadows */
+  --itl-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --itl-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --itl-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --itl-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes backgroundShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Base Styles */
+.itlusions-theme {
+  font-family: var(--itl-font-family);
+  /* A definite height (not just min-height) is required for the flex-shrink math below to have
+     something concrete to shrink into - with only min-height, the box simply grows to fit its
+     children's natural size (the card's own explicit 652px height) instead of constraining it,
+     which pushes the footer off the bottom of the viewport on shorter screens. */
+  height: 100vh;
+  color: var(--itl-gray-900);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  /* Header/content/footer are normal-flow flex children (not position: fixed) so the browser
+     reserves exactly whatever space the header and footer actually need - including when the
+     footer text wraps to multiple lines at narrow widths - instead of us guessing a pixel
+     height per breakpoint and getting it wrong. */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Interactive background with mouse-following effect */
+.itlusions-theme::before {
+  content: '';
+  position: fixed;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(15, 23, 42, 0.3) 100%),
+    url('../../theme/itlusions/login/resources/img/hero-bg.jpg') center center/cover no-repeat;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translate(var(--mouse-x, 0%), var(--mouse-y, 0%));
+  z-index: -1;
+}
+
+.itlusions-theme * {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styling */
+.itlusions-header {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: var(--itl-border-width) solid rgba(255, 255, 255, 0.2);
+  /* Tightened from --itl-spacing-md (1rem): a small, low-risk saving that adds to the card's
+     available max-height budget on shorter viewports (see .itlusions-footer for the bigger one). */
+  padding: 0.75rem 0;
+  box-shadow: var(--itl-shadow-sm);
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 1000;
+}
+
+.itlusions-header-wrapper {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0 var(--itl-spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Flex items default to min-width: auto (their content's natural min width), which can force
+   this row wider than an extremely narrow viewport and break centering elsewhere on the page.
+   min-width: 0 lets them shrink/wrap instead. */
+.itlusions-header-wrapper > * {
+  min-width: 0;
+}
+
+.itlusions-header h1 {
+  /* Fluid typography: scales continuously with viewport width between these two bounds instead
+     of jumping at each breakpoint. Interpolates from 1.125rem at a 320px viewport up to
+     1.75rem at 1280px+, floored/capped at those values outside that range. */
+  font-size: clamp(1.125rem, 1vw + 0.9rem, 1.75rem);
+  font-weight: 700;
+  color: var(--itl-primary);
+  margin: 0;
+  letter-spacing: -0.025em;
+  overflow-wrap: break-word;
+}
+
+.itlusions-header h1::after {
+  content: ".";
+  color: var(--itl-accent);
+}
+
+/* Language Selector */
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.language-dropdown button {
+  padding: var(--itl-spacing-sm) var(--itl-spacing-md);
+  background: white;
+  border: var(--itl-border-width) solid var(--itl-gray-300);
+  border-radius: var(--itl-border-radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--itl-gray-700);
+  transition: all 0.2s ease;
+}
+
+.language-dropdown button:hover {
+  background: var(--itl-gray-50);
+  border-color: var(--itl-gray-400);
+}
+
+.language-dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  min-width: 160px;
+  box-shadow: var(--itl-shadow-lg);
+  border: var(--itl-border-width) solid var(--itl-gray-200);
+  border-radius: var(--itl-border-radius);
+  z-index: 1001;
+  top: 100%;
+  right: 0;
+  margin-top: var(--itl-spacing-xs);
+}
+
+.language-dropdown-content a {
+  color: var(--itl-gray-700);
+  padding: var(--itl-spacing-md);
+  text-decoration: none;
+  display: block;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.language-dropdown-content a:hover {
+  background: var(--itl-gray-50);
+}
+
+.language-dropdown:hover .language-dropdown-content {
+  display: block;
+}
+
+/* Main Content Layout */
+.itlusions-content-wrapper {
+  /* Grid (not flex) for centering: flexbox's justify-content/align-items: center falls back to
+     a "safe" start-aligned position when the centered content overflows its container, which
+     makes the card visibly jump toward a corner on extremely narrow/short viewports. A single-cell
+     grid centers the same way in normal cases but does not exhibit that fallback-alignment jump. */
+  display: grid;
+  /* Grid tracks default to "auto" sizing, which grows to fit the item's natural/specified size
+     (the card's explicit 652px height) rather than staying at the container's actual available
+     space - the Grid equivalent of flexbox's min-width:auto problem. minmax(0, 1fr) forces the
+     single cell to always be exactly 100% of this container, so the card's max-height: 100%
+     (below) resolves against real available space instead of the card's own oversized content. */
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  /* flex: 1 makes this fill exactly whatever vertical space the header/footer don't use, however
+     tall they actually render (e.g. the footer wrapping to 2-3 lines at narrow widths) - so the
+     card is always centered in the real available area instead of a hand-guessed pixel estimate.
+     min-height: 0 lets this flex item shrink below its content size, which is required for the
+     card's own max-height/overflow-y:auto (below) to be able to clamp it. */
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--itl-spacing-md);
+}
+
+/* Login Card */
+.itlusions-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: var(--itl-border-radius-lg);
+  box-shadow: var(--itl-shadow-lg), 0 0 40px rgba(37, 99, 235, 0.1);
+  padding: var(--itl-spacing-2xl);
+  width: 100%;
+  max-width: 500px;
+  /* 652px is a target size, not a rigid one: height: auto + min-height lets the card grow taller
+     when real content needs more room (e.g. every optional login feature enabled - remember-me,
+     reset password, registration, social login - genuinely needs more than 652px), instead of
+     clipping/scrolling content that barely overflows a fixed height. It still won't grow past
+     max-height: 100% (below), which clamps it to whatever space is actually left after the
+     header/footer take their real height, so it still can't overlap either of them. */
+  height: auto;
+  min-height: min(652px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  min-width: 0;
+  border: var(--itl-border-width) solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Form Header */
+.itlusions-form-header {
+  text-align: center;
+  /* Tightened from --itl-spacing-xl (2rem), then again from --itl-spacing-lg (1.5rem). */
+  margin-bottom: 1.25rem;
+  animation: slideDown 0.6s ease-out 0.1s backwards;
+}
+
+.itlusions-form-header h1 {
+  /* Fluid typography: see .itlusions-header h1 above for the rationale. */
+  font-size: clamp(1.125rem, 0.85vw + 0.95rem, 1.625rem);
+  font-weight: 600;
+  color: var(--itl-gray-900);
+  margin: 0 0 var(--itl-spacing-sm) 0;
+}
+
+.itlusions-form-header p {
+  color: var(--itl-gray-600);
+  margin: 0;
+  font-size: clamp(0.7rem, 0.4vw + 0.62rem, 0.9375rem);
+}
+
+/* Form Styling */
+.itlusions-form {
+  display: flex;
+  flex-direction: column;
+  /* Tightened from --itl-spacing-lg (1.5rem), then --itl-spacing-md (1rem): with several optional
+     login features enabled at once (remember-me, reset password, registration, multiple social
+     providers), the accumulated gap was a meaningful contributor to content overflowing the card
+     on shorter viewports. */
+  gap: 0.875rem;
+}
+
+.itlusions-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--itl-spacing-sm);
+  animation: fadeIn 0.6s ease-out backwards;
+}
+
+.itlusions-form-group:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.itlusions-form-group:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.itlusions-form-group:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.itlusions-label {
+  font-weight: 500;
+  color: var(--itl-gray-700);
+  font-size: clamp(0.7rem, 0.2vw + 0.66rem, 0.8125rem);
+  letter-spacing: 0.025em;
+}
+
+/* Input Styling */
+.itlusions-input {
+  /* Tightened from --itl-spacing-md (1rem). */
+  padding: 0.875rem;
+  border: var(--itl-border-width) solid var(--itl-gray-300);
+  border-radius: var(--itl-border-radius);
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  background: white;
+  color: var(--itl-gray-900);
+  font-family: var(--itl-font-family);
+}
+
+.itlusions-input:focus {
+  outline: none;
+  border-color: var(--itl-primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+}
+
+.itlusions-input::placeholder {
+  color: var(--itl-gray-400);
+}
+
+/* Checkbox Styling */
+.itlusions-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--itl-spacing-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.itlusions-checkbox input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--itl-primary);
+  cursor: pointer;
+}
+
+.itlusions-checkbox label {
+  margin: 0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+/* Button Styling */
+.itlusions-button {
+  /* Tightened from var(--itl-spacing-md) var(--itl-spacing-lg) (1rem/1.5rem). Vertical padding is
+     the actual height driver here, not min-height below - padding + line-height comfortably
+     exceeds the min-height floor, so this is where real savings come from. Multiplied by every
+     button on the card (Sign In + N social providers), this was the single highest-leverage cut
+     toward fitting 2 social providers above the fold on common short-height desktop windows
+     (e.g. 1366x768). */
+  padding: 0.75rem var(--itl-spacing-lg);
+  border-radius: var(--itl-border-radius);
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: var(--itl-border-width) solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--itl-spacing-sm);
+  /* Tightened from 2.5rem: with the Sign In button plus up to N social provider buttons all
+     sharing this class, small per-button savings compound - meaningful toward fitting everything
+     above the fold on shorter viewports with multiple providers enabled. */
+  min-height: 2.25rem;
+  letter-spacing: 0.025em;
+  font-family: var(--itl-font-family);
+}
+
+.itlusions-button--primary {
+  background: var(--itl-primary);
+  color: white;
+  border-color: var(--itl-primary);
+  width: 100%;
+}
+
+.itlusions-button--primary:hover {
+  background: var(--itl-primary-dark);
+  border-color: var(--itl-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--itl-shadow-md);
+}
+
+.itlusions-button--secondary {
+  background: white;
+  color: var(--itl-gray-700);
+  border-color: var(--itl-gray-300);
+}
+
+.itlusions-button--secondary:hover {
+  background: var(--itl-gray-50);
+  border-color: var(--itl-gray-400);
+}
+
+.itlusions-button--large {
+  padding: var(--itl-spacing-lg) var(--itl-spacing-xl);
+  font-size: 1rem;
+  min-height: 3rem;
+}
+
+.itlusions-button--social {
+  background: white;
+  border-color: var(--itl-gray-300);
+  color: var(--itl-gray-700);
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.itlusions-button--social:hover {
+  background: var(--itl-gray-50);
+  border-color: var(--itl-gray-400);
+}
+
+/* Social Providers */
+.itlusions-social-providers {
+  margin-top: var(--itl-spacing-md);
+  padding-top: var(--itl-spacing-md);
+  border-top: var(--itl-border-width) solid var(--itl-gray-200);
+  animation: fadeIn 0.6s ease-out 0.6s backwards;
+  display: flex;
+  flex-direction: column;
+  /* Tightened from --itl-spacing-md (1rem): with 2+ providers stacked, this gap is multiplied
+     by (N-1), so it's one of the higher-leverage places to trim when several are configured. */
+  gap: var(--itl-spacing-sm);
+}
+
+/* Form Options */
+.itlusions-form-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--itl-spacing-sm);
+  font-size: 0.875rem;
+  margin-top: var(--itl-spacing-md);
+  animation: fadeIn 0.6s ease-out 0.5s backwards;
+}
+
+.itlusions-form-options a {
+  color: var(--itl-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.itlusions-form-options a:hover {
+  color: var(--itl-primary-dark);
+  text-decoration: underline;
+}
+
+/* Alert Styling */
+.itlusions-alert {
+  padding: var(--itl-spacing-md);
+  border-radius: var(--itl-border-radius);
+  border: var(--itl-border-width) solid;
+  margin-bottom: var(--itl-spacing-md);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.itlusions-alert--error {
+  background: rgb(239 68 68 / 0.1);
+  border-color: var(--itl-error);
+  color: var(--itl-error);
+}
+
+/* Footer */
+.itlusions-footer {
+  text-align: center;
+  /* Tightened from --itl-spacing-xl (2rem) top/bottom: the biggest single contributor to the
+     footer's real height, which directly shrinks the card's available max-height budget on
+     shorter viewports - this alone was enough to push social login buttons entirely below the
+     fold on common laptop/tablet-landscape window sizes once several login features were
+     enabled. Horizontal padding kept wide so the copyright text still has breathing room. */
+  padding: var(--itl-spacing-md) var(--itl-spacing-xl);
+  color: var(--itl-gray-500);
+  font-size: 0.875rem;
+  width: 100%;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 500;
+}
+
+.itlusions-footer a {
+  color: var(--itl-primary);
+  text-decoration: none;
+}
+
+.itlusions-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design - Mobile First */
+
+/* Extra Small Devices (legacy phones / foldable cover screens, up to 359px) */
+@media (max-width: 359px) {
+  .itlusions-header {
+    padding: 0.75rem 0;
+  }
+
+  .language-dropdown button {
+    padding: var(--itl-spacing-xs) 0.375rem;
+    font-size: 0.65rem;
+  }
+
+  .itlusions-content-wrapper {
+    padding: 0.5rem;
+  }
+
+  .itlusions-footer {
+    padding: var(--itl-spacing-xs) var(--itl-spacing-sm);
+    font-size: 0.7rem;
+  }
+
+  .itlusions-footer-tagline {
+    display: none;
+  }
+
+  .itlusions-card {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    min-height: min(420px, 100%);
+    padding: 1rem;
+    margin: 0;
+  }
+
+  .itlusions-form-header h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .itlusions-form-group {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    margin-bottom: 0.25rem;
+  }
+
+  input, select, textarea {
+    font-size: 16px !important;
+    padding: 0.75rem;
+  }
+
+  button[type="submit"], .itlusions-button {
+    padding: 1rem;
+    font-size: 0.8rem;
+    border-radius: 0.25rem;
+  }
+
+  .itlusions-form-options,
+  .itlusions-divider,
+  .itlusions-social-providers {
+    margin-top: 1rem;
+  }
+
+  .itlusions-form-footer {
+    font-size: 0.75rem;
+  }
+}
+
+/* Small Devices (360px - 425px): covers current Galaxy S/S+/Ultra and iPhone 16 series */
+@media (min-width: 360px) and (max-width: 425px) {
+  .itlusions-content-wrapper {
+    /* Tightened from 1rem: this directly increases the card's available max-height budget
+       (rather than shrinking card content further) - see .itlusions-card below. */
+    padding: 0.75rem;
+  }
+
+  .itlusions-card {
+    max-width: 100%;
+    height: auto;
+    /* 480px on real devices in this range (all 780px+ tall); min() against 100% (the actual
+       remaining space after the header/footer, whatever their real height is) keeps it from
+       ever forcing overlap on an unrealistically short/custom viewport. */
+    min-height: min(480px, 100%);
+    /* Tightened from 2rem: the base Galaxy S24/S25 (360x780, the shortest device in this width
+       bucket) was still 14px taller than available space with 2 social providers + every other
+       optional login feature enabled - just enough to silently clip the tail of the bottom
+       padding via the max-height clamp, which read as "less space below the last button" even
+       though nothing was structurally different from a taller device like the Ultra. */
+    padding: 1.75rem;
+  }
+
+  input, select, textarea {
+    font-size: 16px !important;
+    padding: 1rem;
+  }
+
+  /* Padding tightened from 1.375rem: still noticeably larger than the desktop base (good, keeps
+     a bigger mobile touch target), but the previous value combined with 2+ social provider
+     buttons pushed content well below the fold on shorter phones like the base Galaxy S24/S25. */
+  button[type="submit"], .itlusions-button {
+    padding: 1rem;
+    font-size: 0.9375rem;
+  }
+}
+
+/* Medium Mobile (426px - 640px) */
+@media (min-width: 426px) and (max-width: 640px) {
+  .itlusions-content-wrapper {
+    padding: 1.25rem;
+  }
+
+  .itlusions-card {
+    max-width: 100%;
+    height: auto;
+    min-height: min(520px, 100%);
+    padding: 2.25rem;
+  }
+
+  .itlusions-form-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  input, select, textarea {
+    font-size: 16px !important;
+    padding: 1.125rem;
+  }
+
+  /* Padding tightened from 1.5rem - see the 360-425px breakpoint's .itlusions-button for why. */
+  button[type="submit"], .itlusions-button {
+    padding: 1.125rem;
+    font-size: 1rem;
+  }
+}
+
+/* Tablets & Small Screens (641px - 768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .itlusions-content-wrapper {
+    padding: 1.5rem;
+  }
+
+  .itlusions-card {
+    max-width: 450px;
+    height: auto;
+    min-height: min(560px, 100%);
+    padding: 1.75rem;
+  }
+}
+
+/* Medium Tablets (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .itlusions-card {
+    max-width: 500px;
+    padding: 2rem;
+  }
+}
+
+/* Large Screens (1025px+) */
+@media (min-width: 1025px) {
+  .itlusions-card {
+    max-width: 500px;
+    /* Tightened from 2.5rem, then 2rem: reclaims space toward the card's available content
+       height on short-height desktop/laptop windows (e.g. 1366x768) once several login features
+       are enabled at once. */
+    padding: 1.75rem;
+  }
+}
+
+/* Generic Mobile Fallback (max-width: 640px) */
+@media (max-width: 640px) {
+  .itlusions-theme {
+    background-attachment: scroll; /* Better performance on mobile */
+  }
+
+  .itlusions-header-wrapper {
+    padding: 0 var(--itl-spacing-sm);
+  }
+
+  .language-dropdown button {
+    padding: var(--itl-spacing-xs) var(--itl-spacing-sm);
+    font-size: 0.75rem;
+  }
+
+  .itlusions-card {
+    background: rgba(255, 255, 255, 0.98); /* More opaque on mobile for better readability */
+  }
+}
+
+@media print {
+  .itlusions-theme {
+    background: white !important;
+  }
+
+  .itlusions-card {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itlusions-theme::before {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .itlusions-card {
+    animation: none !important;
+  }
+}

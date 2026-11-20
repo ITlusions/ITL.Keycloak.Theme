@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITLusions - Sign In</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* ============================================
+           CONTAINER & LAYOUT
+           ============================================ */
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            height: 600px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 
+                        0 0 100px rgba(0, 0, 0, 0.1);
+            background: #0f1419;
+            position: relative;
+        }
+
+        /* ============================================
+           LEFT SECTION (DARK PANEL)
+           ============================================ */
+        .left-section {
+            flex: 0 0 50%;
+            width: 50%;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0d1117 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            color: #ffffff;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            height: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            border-radius: 0 16px 16px 0;
+            z-index: 1;
+        }
+
+        .left-section::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        /* ============================================
+           RIGHT SECTION (WHITE FORM PANEL)
+           ============================================ */
+        .right-section {
+            flex: 1;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            padding: 50px 70px;
+            position: absolute;
+            border-radius: 16px 0 0 16px;
+            overflow: hidden;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: auto;
+            width: 50%;
+            z-index: 2;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+        }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        .tagline {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            max-width: 280px;
+            font-weight: 400;
+            line-height: 1.4;
+            z-index: 1;
+            flex-shrink: 0;
+            letter-spacing: 0.3px;
+            margin: -120px 0 0 0;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            min-height: auto;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            z-index: 1;
+            margin: 0;
+            font-style: normal;
+            letter-spacing: -0.3px;
+            flex-shrink: 0;
+            min-height: auto;
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #000;
+            margin-bottom: 35px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* ============================================
+           HEADER & BRANDING
+           ============================================ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #0078d4 0%, #00a4ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #0078d4 0%, #00a4ef 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .signup-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link:hover {
+            color: #0078d4;
+        }
+
+        /* ============================================
+           FORM SECTION
+           ============================================ */
+        .form-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #888;
+            font-size: 12px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: #ffffff;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+        }
+
+        .form-group input:hover {
+            border-color: #ddd;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: #0078d4;
+        }
+
+        /* ============================================
+           FORM ACTIONS
+           ============================================ */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 28px;
+            margin-top: 8px;
+        }
+
+        .forgot-password {
+            color: #ff6b35;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #ff5a1f;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .signin-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f65454 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+        }
+
+        .signin-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.35);
+        }
+
+        .signin-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* ============================================
+           PHONE MOCKUP
+           ============================================ */
+        .phone-mockup {
+            width: 160px;
+            height: 320px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 20px 60px rgba(0, 120, 212, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid #333;
+            position: relative;
+            flex-shrink: 0;
+            margin: 60px auto 0;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        .chart-bars {
+            display: flex;
+            gap: 6px;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+
+        .bar {
+            width: 8px;
+            background: linear-gradient(180deg, #0078d4 0%, #00a4ef 100%);
+            border-radius: 4px;
+        }
+
+        .bar-1 { height: 20px; }
+        .bar-2 { height: 35px; }
+        .bar-3 { height: 28px; }
+        .bar-4 { height: 42px; }
+        .bar-5 { height: 30px; }
+
+        .phone-amount {
+            font-size: 28px;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .bottom-indicator {
+            position: absolute;
+            bottom: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0078d4 0%, #00a4ef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        /* ============================================
+           INNER PANEL (Content Card)
+           ============================================ */
+        .content-card {
+            background: transparent;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            padding: 30px 40px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .accent {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid #e5e5e5;
+            color: #999;
+            font-size: 12px;
+            margin-top: auto;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #0078d4;
+        }
+
+        .language-selector {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s ease;
+        }
+
+        .language-selector:hover {
+            color: #0078d4;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        /* Desktop & Tablet Split Screen (1025px+) */
+        @media (min-width: 1025px) {
+            .container {
+                height: 600px;
+                max-width: 1400px;
+            }
+
+            .left-section {
+                position: absolute !important;
+                left: 50%;
+                width: 50%;
+                display: flex !important;
+            }
+
+            .right-section {
+                position: absolute !important;
+                left: 0;
+                width: 50%;
+                z-index: 2;
+                padding: 40px 50px;
+            }
+        }
+
+        /* Tablet Landscape Adjustments (1025px - 1399px) */
+        @media (min-width: 1025px) and (max-width: 1399px) {
+            .container {
+                max-width: 1200px;
+                height: 500px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .tagline {
+                font-size: 11px;
+                max-width: 260px;
+            }
+
+            .signin-btn {
+                padding: 14px 20px;
+                font-size: 14px;
+            }
+
+            .form-group input {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Tablet Portrait to Large Mobile (768px - 1024px) - Single Column */
+        @media (max-width: 1024px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                position: relative !important;
+                height: auto !important;
+                flex-direction: column;
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 0;
+                border-radius: 16px;
+            }
+
+            .left-section {
+                display: none !important;
+                visibility: hidden !important;
+                width: 0 !important;
+                height: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .right-section {
+                position: relative !important;
+                width: 100% !important;
+                left: auto !important;
+                top: auto !important;
+                z-index: auto !important;
+                transform: none !important;
+                border-radius: 16px;
+                padding: 40px 30px;
+                height: auto;
+            }
+
+            h1 {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Large Mobile (481px - 767px) */
+        @media (min-width: 481px) and (max-width: 767px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                max-width: 100%;
+                height: auto;
+                border-radius: 16px;
+            }
+
+            .left-section {
+                display: none;
+            }
+
+            .right-section {
+                position: relative;
+                width: 100%;
+                left: auto;
+                top: auto;
+                transform: none;
+                border-radius: 16px;
+                padding: 30px 24px;
+                height: auto;
+            }
+
+            h1 {
+                font-size: 26px;
+                margin-bottom: 24px;
+            }
+
+            .signup-link {
+                font-size: 14px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+
+            .form-group input {
+                padding: 11px 12px;
+                font-size: 14px;
+            }
+
+            .signin-btn {
+                padding: 13px 20px;
+                font-size: 14px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+                font-size: 12px;
+            }
+        }
+
+        /* Small Mobile (480px and below) */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                max-width: 100%;
+                height: auto;
+                border-radius: 12px;
+                padding: 0;
+            }
+
+            .left-section {
+                display: none;
+            }
+
+            .right-section {
+                position: relative;
+                width: 100%;
+                left: auto;
+                top: auto;
+                transform: none;
+                border-radius: 12px;
+                padding: 24px 16px;
+                height: auto;
+            }
+
+            .header {
+                margin-bottom: 28px;
+            }
+
+            .logo {
+                font-size: 14px;
+            }
+
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+
+            .signup-link {
+                font-size: 12px;
+            }
+
+            h1 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+
+            .form-section {
+                margin-bottom: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+
+            .form-group label {
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+
+            .form-group input {
+                padding: 10px 10px;
+                font-size: 13px;
+                border-radius: 6px;
+            }
+
+            .signin-btn {
+                padding: 12px 16px;
+                font-size: 13px;
+                border-radius: 24px;
+            }
+
+            .forgot-password {
+                font-size: 12px;
+                margin-bottom: 16px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .footer-text {
+                font-size: 11px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+                font-size: 11px;
+            }
+
+            .language-selector {
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section (Dark Panel) -->
+        <div class="left-section">
+            <div class="content-card">
+                <div class="tagline">
+                    Enterprise <span class="accent">cloud infrastructure</span> and management for modern organizations.
+                </div>
+
+                <div style="text-align: center; z-index: 1; width: 100%;">
+                    <h2 class="hero-title"><span class="accent">Control</span> your infrastructure</h2>
+
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div style="color: #fff; font-size: 14px; font-weight: 500; margin-bottom: 20px;">Resources</div>
+                            <div class="phone-amount">2,847</div>
+                            <div class="chart-bars">
+                                <div class="bar bar-1"></div>
+                                <div class="bar bar-2"></div>
+                                <div class="bar bar-3"></div>
+                                <div class="bar bar-4"></div>
+                                <div class="bar bar-5"></div>
+                            </div>
+                        </div>
+                        <div class="bottom-indicator">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section (Form Panel) -->
+        <div class="right-section">
+            <div class="header">
+                <div class="logo">
+                    <div class="logo-icon">IT</div>
+                    <span>Lusions</span>
+                </div>
+                <a href="#" class="signup-link">
+                    <i class="fas fa-user-plus"></i>
+                    Sign Up
+                </a>
+            </div>
+
+            <div class="form-section">
+                <h1>Sign In</h1>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email or Username</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="Enter your email or username"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="Enter your password"
+                                required
+                            >
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="signin-btn">
+                        <span>Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="footer">
+                <span>&copy; 2024-2025 ITLusions Inc.</span>
+                <div class="footer-links">
+                    <a href="#">Contact Us</a>
+                </div>
+                <button class="language-selector">
+                    <i class="fas fa-globe"></i>
+                    <span>English</span>
+                    <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password visibility toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+                togglePassword.innerHTML = isPassword ? 
+                    '<i class="fas fa-eye-slash"></i>' : 
+                    '<i class="fas fa-eye"></i>';
+            });
+        }
+
+        // Form submission handler
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                alert(`Welcome back to ITLusions Control Plane, ${email}!`);
+            });
+        }
+    </script>
+</body>
+</html>
